@@ -45,7 +45,7 @@ class TestSlozeniaBurgera(unittest.TestCase):
         kotletka = Kotletka()
         tefal = Skovoroda()
         tefal.put(kotletka)
-        for _ in itertools.repeat(None, Kotletka.recommended_turns):
+        for _ in itertools.repeat(None, kotletka.recommended_turns):
             kotletka.turn_over()
 
         top_bun = Bun()
