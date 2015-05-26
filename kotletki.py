@@ -59,6 +59,21 @@ class Burger(list):
         self.extend([buns[0], kotletka, sauce, buns[1]])
 
 
+class Cook(object):
+    def __init__(self, cookbook):
+        pass
+
+
+class Cookbook(object):
+    def __init__(self, recipes=[]):
+        pass
+
+
+class Recipe(object):
+    def __init__(self):
+        pass
+
+
 class SkovorodaOverflowException(Exception):
     def __str__(self):
         return 'Too many items at skovoroda'
