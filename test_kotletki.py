@@ -1,6 +1,7 @@
 import itertools
 import unittest
 from kotletki import Kotletka, Bun, Sauce, Ketchup, Skovoroda, Burger
+from kotletki import ChickenKotletka, ImpossibleKotletka
 from kotletki import SkovorodaOverflowException, YouSuckAtCookingException
 
 
@@ -34,7 +35,7 @@ class TestZarkiKotletki(unittest.TestCase):
 
     def test_is_kotletka_ready(self):
         kotletka = Kotletka()
-        for _ in itertools.repeat(None, Kotletka.recommended_turns):
+        for _ in itertools.repeat(None, kotletka.recommended_turns):
             kotletka.turn_over()
         self.assertTrue(kotletka.ready)
 
