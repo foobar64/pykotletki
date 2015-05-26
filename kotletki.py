@@ -16,7 +16,7 @@ class Kotletka(object):
 
     @property
     def ready(self):
-        return self._times_turned >= 2
+        return self._times_turned >= self.ready_after
 
 
 class ChickenKotletka(Kotletka):
