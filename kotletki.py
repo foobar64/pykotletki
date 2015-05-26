@@ -33,9 +33,9 @@ class Skovoroda(object):
         self.contents = []
 
     def put(self, food):
-        if len(self.contents > 5):
+        if len(self.contents) > 5:
             raise SkovorodaOverflowException
-        self.contents.extend(food)
+        self.contents.append(food)
 
 
 class Burger(object):
