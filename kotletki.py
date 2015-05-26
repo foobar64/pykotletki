@@ -38,25 +38,18 @@ class Skovoroda(object):
         self.contents.extend(food)
 
 
-class Burger(object):
-    def __init__(self, kotletka, bun, sauce):
-        self.ingredients = []
+class Burger(list):
+    def __init__(self, kotletka, buns, sauce):
         if not kotletka.ready:
             raise YouSuckAtCookingException
-        self.ingredients.extend([kotletka, bun, sauce])
+        self.extend([buns[0], kotletka, sauce, buns[1]])
 
 
 class SkovorodaOverflowException(Exception):
-    def __init__(self):
-        pass
-
     def __str__(self):
         return 'Wow such exception'
 
 
 class YouSuckAtCookingException(Exception):
-    def __init__(self):
-        pass
-
     def __str__(self):
         return 'Your chef sucks at cooking'
