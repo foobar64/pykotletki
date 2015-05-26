@@ -1,6 +1,6 @@
 import itertools
 import unittest
-from kotletki import Kotletka, Bun, Sauce, Ketchup, Skovoroda
+from kotletki import Kotletka, Bun, Sauce, Ketchup, Skovoroda, Burger
 from kotletki import SkovorodaOverflowException, YouSuckAtCookingException
 
 
@@ -34,36 +34,41 @@ class TestZarkiKotletki(unittest.TestCase):
 
     def test_is_kotletka_ready(self):
         kotletka = Kotletka()
-        for _ in itertools.repeat(None, 5):
+        for _ in itertools.repeat(None, Kotletka.recommended_turns):
             kotletka.turn_over()
         self.assertTrue(kotletka.ready)
 
 
 class TestSlozeniaBurgera(unittest.TestCase):
-    def test_is_burger_ready(self):
+    def test_make_burger(self):
         kotletka = Kotletka()
-        bun = Bun()
+        tefal = Skovoroda()
+        tefal.put(kotletka)
+        for _ in itertools.repeat(None, Kotletka.recommended_turns):
+            kotletka.turn_over()
+
+        top_bun = Bun()
+        bottom_bun = Bun()
         sauce = Sauce()
         cathcupketchup = Ketchup()
-        tefal = Skovoroda()
-        for _ in itertools.repeat(None, 5):
-            kotletka.turn_over()
-        tefal.put(kotletka)
-        tefal.put(bun)
-        tefal.put(sauce)
-        tefal.put(cathcupketchup)
-        self.assertTrue(kotletka.ready)
+
+        burger = Burger(
+          kotletka,
+          [top_bun, bottom_bun],
+          cathcupketchup)
 
     def test_throw_burger_exception(self):
         kotletka = Kotletka()
-        bun = Bun()
+        top_bun = Bun()
+        bottom_bun = Bun()
         sauce = Sauce()
         cathcupketchup = Ketchup()
-        tefal = Skovoroda()
-        tefal.put(bun)
-        tefal.put(sauce)
-        tefal.put(cathcupketchup)
-        self.assertRaises(YouSuckAtCookingException, tefal.put(kotletka))
+
+        with self.assertRaises(YouSuckAtCookingException):
+            burger = Burger(
+              kotletka,
+              [top_bun, bottom_bun],
+              cathcupketchup)
 
 
 if __name__ == '__main__':
