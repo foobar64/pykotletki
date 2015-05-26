@@ -1,5 +1,6 @@
 class Kotletka(object):
     ready_after = 2
+    recommended_turns = 3
     burnt_after = 5
 
     def __init__(self):
@@ -20,10 +21,12 @@ class Kotletka(object):
 
 class ChickenKotletka(Kotletka):
     ready_after = 4
+    recommended_turns = 4
 
 
 class ImpossibleKotletka(Kotletka):
     ready_after = 8
+    recommended_turns = 8
     # burnt_after == 5
 
 
