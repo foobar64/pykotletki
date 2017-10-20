@@ -77,10 +77,10 @@ class Burger(object):
     def next(self):
         if not self.ready:
             raise BurgerIsNotReadyYetException
-        if self.i > len(self.bitting):
+        if not self.bitting:
             raise StopIteration
         else:
-            self.i += 1
+            # self.i += 1
             return self.bitting.pop(0)
 
     @property
@@ -143,4 +143,4 @@ def order_burger():
     kokleta = Kotletka()
     while not kokleta.ready:
         kokleta.turn_over()
-        return Burger(kokleta, [Bun(), Bun()], Ketchup())
+    return Burger(kokleta, [Bun(), Bun()], Ketchup())
