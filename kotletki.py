@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Kotletka(object):
     ready_after = 2
     recommended_turns = 3
@@ -27,7 +29,6 @@ class ChickenKotletka(Kotletka):
 class ImpossibleKotletka(Kotletka):
     ready_after = 8
     recommended_turns = 8
-    # burnt_after == 5
 
 
 class Bun(object): pass
@@ -52,11 +53,47 @@ class Skovoroda(object):
         self.contents.append(food)
 
 
-class Burger(list):
+class Burger(object):
     def __init__(self, kotletka, buns, sauce):
         if not kotletka.ready:
             raise KotletkaNotReadyException
-        self.extend([buns[0], kotletka, sauce, buns[1]])
+        self.content = [buns[0], kotletka, sauce, buns[1]]
+        self.ready = False
+        self.i = 0
+        self.bitting = ['OM', 'NOM',  'NOM',  'NOM']
+
+    def wait(self):
+        if self.ready:
+            raise BurgerIsAlreadyReadyException
+        else:
+            self.ready = True
+
+    def take_a_bite(self):
+        return self.bitting.pop(0)
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if not self.ready:
+            raise BurgerIsNotReadyYetException
+        if not self.bitting:
+            raise StopIteration
+        else:
+            # self.i += 1
+            return self.bitting.pop(0)
+
+    @property
+    def status(self):
+        if len(self.bitting) == 4:
+            if self.ready:
+                return 'ready'
+            else:
+                return 'not ready'
+        elif self.bitting:
+            return 'not finished'
+        else:
+            return 'eaten'
 
 
 class Cook(object):
@@ -92,3 +129,18 @@ class KotletkaBurntException(YouSuckAtCookingException):
 class KotletkaNotReadyException(YouSuckAtCookingException):
     def __str__(self):
         return "Kotletka wasn't cooked properly"
+
+class BurgerIsAlreadyReadyException(Exception):
+    def __str__(self):
+        return 'Your burger is ready already, Bon Appètit'
+
+class BurgerIsNotReadyYetException(Exception):
+    def __str__(self):
+        return 'Burger wasn\'t cooked properly'
+
+
+def order_burger():
+    kokleta = Kotletka()
+    while not kokleta.ready:
+        kokleta.turn_over()
+    return Burger(kokleta, [Bun(), Bun()], Ketchup())
