@@ -2,6 +2,8 @@ import itertools
 import unittest
 from kotletki import Kotletka, Bun, Sauce, Ketchup, Skovoroda, Burger
 from kotletki import ChickenKotletka, ImpossibleKotletka
+from kotletki import order_burger
+from kotletki import BurgerIsAlreadyReadyException, BurgerIsNotReadyYetException
 from kotletki import SkovorodaOverflowException, YouSuckAtCookingException
 
 
@@ -57,6 +59,36 @@ class TestSlozeniaBurgera(unittest.TestCase):
           kotletka,
           [top_bun, bottom_bun],
           cathcupketchup)
+
+    def test_ordering_burger(self):
+        burger = order_burger()
+
+    def test_taking_a_bite(self):
+        burger = order_burger()
+        burger.wait()
+        self.assertEqual(burger.take_a_bite(), 'OM')
+
+    def test_burger_statuses(self):
+        burger = order_burger()
+        self.assertEqual(burger.status, 'not ready')
+        burger.wait()
+        self.assertEqual(burger.status, 'ready')
+        burger.take_a_bite()
+        self.assertEqual(burger.status, 'not finished')
+        for bit in burger:
+            pass
+        self.assertEqual(burger.status, 'eaten')
+
+    def test_throw_burger_ready_exception(self):
+        burger = order_burger()
+        burger.wait()
+        with self.assertRaises(BurgerIsAlreadyReadyException):
+            burger.wait()
+
+    def test_throw_burger_not_ready_exception(self):
+        burger = order_burger()
+        with self.assertRaises(BurgerIsNotReadyYetException):
+            burger.take_a_bite()
 
     def test_throw_burger_exception(self):
         kotletka = Kotletka()

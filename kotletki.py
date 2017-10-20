@@ -59,7 +59,6 @@ class Burger(object):
             raise KotletkaNotReadyException
         self.content = [buns[0], kotletka, sauce, buns[1]]
         self.ready = False
-        self.i = 0
         self.bitting = ['OM', 'NOM',  'NOM',  'NOM']
 
     def wait(self):
@@ -69,7 +68,10 @@ class Burger(object):
             self.ready = True
 
     def take_a_bite(self):
-        return self.bitting.pop(0)
+        if self.ready:
+            return self.bitting.pop(0)
+        else:
+            raise BurgerIsNotReadyYetException
 
     def __iter__(self):
         return self
@@ -80,7 +82,6 @@ class Burger(object):
         if not self.bitting:
             raise StopIteration
         else:
-            # self.i += 1
             return self.bitting.pop(0)
 
     @property
